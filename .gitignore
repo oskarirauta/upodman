@@ -1,3 +1,7 @@
+# binaries
+./upodman
+./example
+
 # Prerequisites
 *.d
 
@@ -30,3 +34,9 @@
 *.exe
 *.out
 *.app
+
+# Curl
+curl-7.87.0/Makefile
+curl-7.87.0/src/Makefile
+curl-7.87.0/src/Makefile.am
+curl-7.87.0/src/tool_hugehelp.c

@@ -31,18 +31,15 @@ UBUS_OBJS:= \
 PODMAN_EXAMPLE_OBJS:= \
 	objs/mutex.o objs/podman_signal.o objs/podman_dump.o objs/podman_main.o
 
-BUILD_DIR?=$(PWD)
-
-include Makefile.curl
-
 LIBS:=
 UBUS_LIBS:=-lubox -lblobmsg_json -luci -lubus
 JSON_LIBS:=-ljson-c
+CURL_LIBS:=-lcurl
 
-INCLUDES:=-I./include -I./podman/include -I. $(CURL_INCLUDES)
+INCLUDES:=-I./include -I./podman/include -I.
 EXTRA_CXXFLAGS:=-Wno-builtin-declaration-mismatch
 
-DEPS:=$(CURL_LIBS)
+DEPS:=
 
 objs/common.o: shared/common.cpp $(DEPS)
 	$(CXX) $(CXXFLAGS) $(EXTRA_CXXFLAGS) $(INCLUDES) -c -o $@ $<;
@@ -126,13 +123,10 @@ objs/podman_main.o: podman/example/main.cpp $(DEPS)
 	$(CXX) $(CXXFLAGS) $(EXTRA_CXXFLAGS) $(INCLUDES) -I./podman/example -c -o $@ $<;
 
 upodman: $(DEPS) $(SHARED_OBJS) $(OBJS) $(PODMAN_OBJS) $(UBUS_OBJS)
-	$(CXX) $(CXXFLAGS) $(EXTRA_CXXFLAGS) $(LDFLAGS) $(SHARED_OBJS) $(OBJS) $(PODMAN_OBJS) $(UBUS_OBJS) $(CURL_LIBS) $(LIBS) $(UBUS_LIBS) $(JSON_LIBS) -o $@;
+	$(CXX) $(CXXFLAGS) $(EXTRA_CXXFLAGS) $(LDFLAGS) $(SHARED_OBJS) $(OBJS) $(PODMAN_OBJS) $(UBUS_OBJS) $(CURL_LIBS) $(UBUS_LIBS) $(JSON_LIBS) $(LIBS) -o $@;
 
 example: $(DEPS) $(SHARED_OBJS) $(PODMAN_OBJS) $(PODMAN_EXAMPLE_OBJS)
 	$(CXX) $(CXXFLAGS) $(EXTRA_CXXFLAGS) $(LDFLAGS) $(SHARED_OBJS) $(PODMAN_OBJS) $(PODMAN_EXAMPLE_OBJS) $(CURL_LIBS) $(JSON_LIBS) -o $@;
 
 clean:
 	rm -f objs/** upodman example
-
-distclean: curl-clean clean
-dist-clean: curl-clean clean

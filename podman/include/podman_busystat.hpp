@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <cstdint>
 
 #ifndef BUSY_COUNTDOWN_CYCLES
 #define BUSY_COUNTDOWN_CYCLES 4
